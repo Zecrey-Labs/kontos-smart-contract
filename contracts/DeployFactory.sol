@@ -16,6 +16,9 @@ contract DeployFactory {
     address private owner;
     address private superOwner;
 
+    event NewOwner(address _old, address _new);
+    event NewSuperOwner(address _old, address _new);
+
     constructor(address _owner, address _superOwner) {
         require(_owner != address(0) && _superOwner != address(0), "CAIV0");
         owner = _owner;
@@ -29,11 +32,13 @@ contract DeployFactory {
 
     function newOwner(address _owner) onlySuperOwner external {
         require(_owner != address(0), "CAIV1");
+        emit NewOwner(owner, _owner);
         owner = _owner;
     }
 
     function newSuperOwner(address _superOwner) onlySuperOwner external {
         require(_superOwner != address(0), "CAIV2");
+        emit NewSuperOwner(superOwner, _superOwner);
         superOwner = _superOwner;
     }
 
